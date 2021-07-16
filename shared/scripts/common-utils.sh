@@ -1,6 +1,8 @@
 #!/bin/bash
 # Common utils for all Kubernetes node in the cluster.
 
+# -----------------
+#
 # To make it easier for build and release pipelines to run apt-get,
 # configure apt to not require confirmation (assume the -y argument by default)
 export DEBIAN_FRONTEND=noninteractive
@@ -12,6 +14,7 @@ sudo swapoff -a
 # This step keeps the swap area off during reboot with modifying fstab file.
 sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 
+# -----------------
 #
 # Install Docker Engine on Ubuntu
 # Source: https://docs.docker.com/engine/install/ubuntu/
@@ -41,6 +44,10 @@ echo \
 sudo apt-get update -y
 sudo apt-get install -y --no-install-recommends docker-ce docker-ce-cli containerd.io
 
+ # Run Docker commands as vagrant user
+sudo usermod -aG docker vagrant
+
+# -----------------
 #
 # Following configurations are recomended in the Kubenetes documentation for Docker Container Runtime. 
 # Source: https://kubernetes.io/docs/setup/production-environment/container-runtimes/#docker
@@ -79,7 +86,9 @@ echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https:/
 
 # Update apt package index, install kubelet, kubeadm and kubectl, and pin their version:
 sudo apt-get update -y
-#KUBERNETES_VERSION="1.20.6-00"
+#KUBERNETES_VERSION="1.21.3-00"
 #sudo apt-get install -y kubelet=$KUBERNETES_VERSION kubectl=$KUBERNETES_VERSION kubeadm=$KUBERNETES_VERSION
 sudo apt-get install -y --no-install-recommends kubelet kubeadm kubectl
 sudo apt-mark hold kubelet kubeadm kubectl
+
+# -----------------

@@ -3,9 +3,19 @@
 
 ## Prerequisites
 
-- At least 4 CPUs: 3 vCPUs will be used with VMs
-- At least 8GB RAM: 4GB RAM will be used with VMs
- 
+Software Prerequisites:
+- Vagrant
+- Vagrant disksize plugin:
+    ```
+    vagrant plugin install vagrant-disksize
+    ```
+
+Hardware Prerequisites:
+- At least 4 CPUs: 
+    - 3 vCPUs will be used with cluster VMs
+- At least 8GB RAM: 
+    - 4GB RAM will be used with cluster VMs
+
 ## To provision the cluster:
 
 ```shell
@@ -32,13 +42,23 @@ vagrant destroy -f
 
 ## Kubernetes Dashboard URL:
 
-```shell
-http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/overview?namespace=kubernetes-dashboard
+You can access Kubernetes Dashboard on control-node with this command:
+
+```Shell
+kubectl proxy &
 ```
 
-## Kubernetes login token
+Kubernetes Dashboard can be accessed with this URL:
 
-"vagrant up" command will create the admin user token, and will save the token in the configs directory.
+```shell
+http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
+```
+
+## Kubernetes Dashboard login token:
+
+"vagrant up" command will create the admin user token in the control-node provision step. 
+
+Admin user access token can be found in the configs directory.
 
 ```shell
 cd configs

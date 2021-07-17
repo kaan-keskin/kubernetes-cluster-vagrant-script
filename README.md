@@ -42,7 +42,7 @@ vagrant destroy -f
 
 ## Kubernetes Dashboard URL:
 
-You can access Kubernetes Dashboard on control-node with this command:
+You can access Kubernetes Dashboard on the control-node with this command:
 
 ```Shell
 kubectl proxy &

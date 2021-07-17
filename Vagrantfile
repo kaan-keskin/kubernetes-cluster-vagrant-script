@@ -28,7 +28,7 @@ Vagrant.configure("2") do |config|
         vb.cpus = 2
       end
       control.vm.synced_folder "./shared", "/vagrant"
-      control.vm.provision "shell", path: "shared/scripts/common-utils.sh"
+      control.vm.provision "shell", path: "shared/scripts/common-utils-ubuntu.sh"
       control.vm.provision "shell", path: "shared/scripts/control-node.sh"
     end
 
@@ -46,7 +46,7 @@ Vagrant.configure("2") do |config|
         vb.cpus = 1
       end
       node.vm.synced_folder "./shared", "/vagrant"
-      node.vm.provision "shell", path: "shared/scripts/common-utils.sh"
+      node.vm.provision "shell", path: "shared/scripts/common-utils-ubuntu.sh"
       node.vm.provision "shell", path: "shared/scripts/worker-node.sh"
     end
     

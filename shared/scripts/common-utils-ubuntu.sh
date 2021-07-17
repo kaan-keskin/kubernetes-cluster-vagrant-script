@@ -3,7 +3,7 @@
 
 # -----------------
 #
-# To make it easier for build and release pipelines to run apt-get,
+# To make it easier to run apt-get,
 # configure apt to not require confirmation (assume the -y argument by default)
 export DEBIAN_FRONTEND=noninteractive
 sudo echo "APT::Get::Assume-Yes \"true\";" > /etc/apt/apt.conf.d/90assumeyes
@@ -13,6 +13,13 @@ sudo swapoff -a
 
 # This step keeps the swap area off during reboot with modifying fstab file.
 sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+
+# Install required general purpose tools:
+sudo apt-get update -y
+sudo apt-get install -y --no-install-recommends \
+  vim \
+  git \
+  tree
 
 # -----------------
 #
@@ -90,5 +97,26 @@ sudo apt-get update -y
 #sudo apt-get install -y kubelet=$KUBERNETES_VERSION kubectl=$KUBERNETES_VERSION kubeadm=$KUBERNETES_VERSION
 sudo apt-get install -y --no-install-recommends kubelet kubeadm kubectl
 sudo apt-mark hold kubelet kubeadm kubectl
+
+# -----------------
+
+# Installing bash completion on Linux
+## If bash-completion is not installed on Linux, please install the 'bash-completion' package
+## via your distribution's package manager.
+sudo apt-get update -y
+sudo apt-get install -y --no-install-recommends bash-completion
+
+## Load the kubectl completion code for bash into the current shell
+source <(kubectl completion bash)
+
+## Write bash completion code to a file and source it from .bash_profile
+kubectl completion bash > ~/.kube/completion.bash.inc
+
+printf "
+# Kubectl shell completion
+source '$HOME/.kube/completion.bash.inc'
+" >> $HOME/.bash_profile
+
+source $HOME/.bash_profile
 
 # -----------------

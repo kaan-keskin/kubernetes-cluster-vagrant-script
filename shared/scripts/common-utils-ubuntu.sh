@@ -19,7 +19,7 @@ sudo apt-get update -y
 sudo apt-get install -y --no-install-recommends \
   vim \
   git \
-  tree
+  tree 
 
 # -----------------
 #
@@ -67,7 +67,10 @@ cat <<EOF | sudo tee /etc/docker/daemon.json
   "log-opts": {
     "max-size": "100m"
   },
-  "storage-driver": "overlay2"
+  "storage-driver": "overlay2",
+  "storage-opts": [
+    "overlay2.override_kernel_check=true"
+  ]
 }
 EOF
 
@@ -80,6 +83,24 @@ sudo systemctl restart docker
 # Installing kubeadm, kubelet and kubectl
 # Source: https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
 #
+
+# Letting iptables see bridged traffic
+
+# Make sure that the br_netfilter module is loaded. 
+# This can be done by running lsmod | grep br_netfilter. 
+# To load it explicitly call:
+cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+br_netfilter
+EOF
+sudo modprobe br_netfilter
+
+# As a requirement for your Linux Node's iptables to correctly see bridged traffic, 
+# you should ensure net.bridge.bridge-nf-call-iptables is set to 1 in your sysctl config, e.g:
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+sudo sysctl --system
 
 # Update the apt package index and install packages needed to use the Kubernetes apt repository:
 sudo apt-get update -y

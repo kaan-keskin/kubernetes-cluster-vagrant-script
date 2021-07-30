@@ -17,31 +17,31 @@ Vagrant.configure("2") do |config|
     SHELL
     
     config.vm.define "control-node" do |control|
-      control.vm.box = "bento/ubuntu-20.04"
+      control.vm.box = "generic/oracle7"
       control.vm.box_check_update = true
       control.vm.hostname = "control-node"
       control.vm.network "private_network", ip: "10.0.0.10"
       control.disksize.size = "200GB"
       control.vm.provider "virtualbox" do |vb|
-        vb.name = "vanilla-kubernetes-cluster-control-node"
+        vb.name = "vanilla-kubernetes-cluster-oraclelinux7-control-node"
         vb.memory = 4048
         vb.cpus = 2
       end
       control.vm.synced_folder "./shared", "/vagrant"
-      control.vm.provision "shell", path: "shared/scripts/common-utils-ubuntu.sh"
+      control.vm.provision "shell", path: "shared/scripts/common-utils-oraclelinux7.sh"
       control.vm.provision "shell", path: "shared/scripts/control-node.sh"
     end
 
     (1..2).each do |i|
   
     config.vm.define "worker-node-0#{i}" do |node|
-      node.vm.box = "bento/ubuntu-20.04"
+      node.vm.box = "generic/oracle7"
       node.vm.box_check_update = true
       node.vm.hostname = "worker-node-0#{i}"
       node.vm.network "private_network", ip: "10.0.0.1#{i}"
       node.disksize.size = "200GB"
       node.vm.provider "virtualbox" do |vb|
-        vb.name = "vanilla-kubernetes-cluster-worker-node-0#{i}"
+        vb.name = "vanilla-kubernetes-cluster-oraclelinux7-worker-node-0#{i}"
         vb.memory = 2048
         vb.cpus = 1
       end

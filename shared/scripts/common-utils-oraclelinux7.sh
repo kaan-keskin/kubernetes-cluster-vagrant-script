@@ -140,17 +140,13 @@ sudo systemctl enable --now kubelet
 sudo yum update -y
 sudo yum install -y bash-completion
 
-## Load the kubectl completion code for bash into the current shell
-source <(kubectl completion bash)
-
 ## Write bash completion code to a file and source it from .bash_profile
-kubectl completion bash > ~/.kube/completion.bash.inc
+sudo -u vagrant mkdir -p /home/vagrant/.kube/
+sudo -u vagrant kubectl completion bash > /home/vagrant/.kube/completion.bash.inc
 
-printf "
+sudo -u vagrant printf "
 # Kubectl shell completion
-source '$HOME/.kube/completion.bash.inc'
-" >> $HOME/.bash_profile
-
-source $HOME/.bash_profile
+source '/home/vagrant/.kube/completion.bash.inc'
+" >> /home/vagrant/.bash_profile
 
 # -----------------

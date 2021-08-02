@@ -3,7 +3,24 @@
 
 CONTROL_NODE_IP="10.0.0.10"
 NODE_NAME=$(hostname -s)
-POD_CIDR="172.17.0.0/16"
+
+# 
+# Calico is a networking and network policy provider. 
+# Calico supports a flexible set of networking options so you can choose the most efficient option for your situation, 
+# including non-overlay and overlay networks, with or without BGP. 
+# Calico uses the same engine to enforce network policy for hosts, pods, and (if using Istio & Envoy) applications at the service mesh layer. 
+# Calico works on several architectures, including amd64, arm64, and ppc64le.
+# 
+# By default, Calico uses 192.168.0.0/16 as the Pod network CIDR, though this can be configured in the calico.yaml file. 
+# For Calico to work correctly, you need to pass this same CIDR to the kubeadm init command 
+# using the --pod-network-cidr=192.168.0.0/16 flag or via kubeadm’s configuration.
+# 
+# CALICO_IPV4POOL_CIDR: "192.168.0.0/16"
+# 
+POD_CIDR="192.168.0.0/16"
+#
+# Docker's Default Network CIDR:
+#POD_CIDR="172.17.0.0/16" 
 
 # Download all required Docker images:
 sudo kubeadm config images pull
@@ -66,6 +83,27 @@ sudo -u vagrant kubectl apply -f calico.yaml
 # Source: https://github.com/kubernetes-sigs/metrics-server
 sudo -u vagrant kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
 
+# To use metrics-server you must sign certificates!
+# To use without certificate signing/creating you must edit deployment with below lines:
+# kubectl -n kube-system edit deployment.apps/metrics-server 
+# 
+# ...
+# spec:
+#      containers:
+#      - args:
+#        - --cert-dir=/tmp
+#        - --secure-port=443
+#        - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+#        - --kubelet-use-node-status-port
+#        - --metric-resolution=15s
+#        - --kubelet-insecure-tls
+#        - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+# ...
+# 
+# dnsPolicy: ClusterFirst
+# hostNetwork: true
+# ...
+# 
 
 # -----------------
 #

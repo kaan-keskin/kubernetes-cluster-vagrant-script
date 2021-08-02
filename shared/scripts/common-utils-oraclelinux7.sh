@@ -150,3 +150,28 @@ source '/home/vagrant/.kube/completion.bash.inc'
 " >> /home/vagrant/.bash_profile
 
 # -----------------
+
+# Installing Helm From Script
+# Helm now has an installer script that will automatically grab the latest version of Helm and install it locally.
+# You can fetch that script, and then execute it locally. 
+# It's well documented so that you can read through it and understand what it is doing before you run it.
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+sudo chmod 700 get_helm.sh
+sudo bash ./get_helm.sh
+
+# -----------------
+
+# Install kubectx from GitHub
+# More information: https://github.com/ahmetb/kubectx
+sudo git clone https://github.com/ahmetb/kubectx /opt/kubectx
+sudo chmod -R 755 /opt/kubectx
+sudo ln -sf /opt/kubectx/kubectx /usr/local/bin/kubectx
+sudo ln -sf /opt/kubectx/kubens /usr/local/bin/kubens
+cat << FOE >> ~/.bashrc
+
+
+#kubectx and kubens
+export PATH=/opt/kubectx:\$PATH
+FOE
+
+# -----------------

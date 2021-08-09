@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# -----------------
+
 ## Load the kubectl completion code for bash into the current shell
 source <(kubectl completion bash)
 
@@ -12,3 +14,5 @@ source '$HOME/.kube/completion.bash.inc'
 " >> $HOME/.bash_profile
 
 source $HOME/.bash_profile
+
+# -----------------

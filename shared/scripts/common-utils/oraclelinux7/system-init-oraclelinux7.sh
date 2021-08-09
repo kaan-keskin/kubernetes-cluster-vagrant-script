@@ -3,23 +3,6 @@
 
 # -----------------
 
-# Setting MYOS variable
-MYOS=$(hostnamectl | awk '/Operating/ { print $3 }')
-OSVERSION=$(hostnamectl | awk '/Operating/ { print $4 }')
-
-egrep '^flags.*(vmx|svm)' /proc/cpuinfo || (echo enable CPU virtualization support and try again && exit 9)
-
-# Debug MYOS variable
-echo MYOS is set to $MYOS
-
-# Disable Swap Area
-sudo swapoff -a
-
-# This step keeps the swap area off during reboot with modifying fstab file.
-# Disable swap (assuming that the name is /dev/mapper/ol_oracle7-swap).
-sudo sed -i 's/^\/dev\/mapper\/ol_oracle7-swap/#\/dev\/mapper\/ol_oracle7-swap/' /etc/fstab
-sudo swapoff /dev/mapper/ol_oracle7-swap
-
 # Set Timezone:
 sudo timedatectl set-timezone Europe/Istanbul
 
@@ -30,12 +13,8 @@ sudo yum install -y \
   vim \
   git \
   tree \
-  python3
-
-# Install KVM software
-sudo yum install @virtualization -y
-sudo systemctl enable --now libvirtd
-sudo usermod -aG libvirt `id -un`
+  python3 \
+  curl
 
 # Install HTop on Red Hat Linux 7
 cd /etc/yum.repos.d

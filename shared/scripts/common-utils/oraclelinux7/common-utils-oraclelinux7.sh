@@ -1,5 +1,14 @@
 #!/bin/bash
-# Common utils for all Kubernetes node in the cluster.
+# Common utils for all Kubernetes nodes in the cluster.
+
+# SSHD Service Configuration Script
+source ../sshd-conf.sh
+
+# Disable SWAP Script
+source swap-off-oraclelinux7.sh
+
+# KVM Virtualization Initializaiton Script
+source kvm-init-oraclelinux7.sh
 
 # Install System Initialization Script
 source system-init-oraclelinux7.sh

@@ -54,6 +54,11 @@ cat <<EOF | sudo tee /etc/docker/daemon.json
 }
 EOF
 
+# Docker and cgroups based on LXC
+# Built-in support for cgroups via LXC
+# LXC driver must be activated
+# sudo echo 'DOCKER_OPTS="--exec-driver=lxc"' >> /etc/default/docker
+
 # Enable and Start Docker Engine Service:
 sudo systemctl enable docker
 sudo systemctl daemon-reload

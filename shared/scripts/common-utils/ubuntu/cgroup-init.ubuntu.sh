@@ -10,13 +10,18 @@ sudo apt install -y lxc cgroup-lite cgroup-bin cgroup-tools
 # Kernel Parameters:
 # https://github.com/torvalds/linux/blob/master/Documentation/admin-guide/kernel-parameters.txt
 #
+
+# Enable the cgroups
 # Debian, by default, disables the memory controller.
+# We can enable it adding the following in /etc/default/grub.
 # 
-# We can enable it adding the following in /etc/default/grub .
-# GRUB_CMDLINE_LINUX_DEFAULT="quiet cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1 swapaccount=1"
+# GRUB_CMDLINE_LINUX_DEFAULT="
+# cgroup_enable=blkio cgroup_enable=cpu cgroup_enable=cpuacct cgroup_enable=cpuset cgroup_enable=devices cgroup_enable=freezer cgroup_enable=memory swapaccount=1
+# "
 # 
-# sudo update-grub
-#
+sudo grubby --update-kernel=ALL \
+  --args="cgroup_enable=blkio cgroup_enable=cpu cgroup_enable=cpuacct cgroup_enable=cpuset cgroup_enable=devices cgroup_enable=freezer cgroup_enable=memory swapaccount=1" 
+sudo update-grub
 
 #
 # https://www.kernel.org/doc/Documentation/cgroup-v1/cgroups.txt
@@ -39,13 +44,23 @@ sudo mkdir -p /sys/fs/cgroup/memory
 # sudo mount -t cgroup memory -o memory /sys/fs/cgroup/memory
 # 
 
-# Instead of docker info (which seems to be buggy) use rather lxc-checkconfig or check-config.sh from Docker (moby) repository:
-wget https://raw.githubusercontent.com/moby/moby/master/contrib/check-config.sh && sudo bash check-config.sh
-
 # Cgroupspy
 # Python wrapper for cgroups
 # Integration with libvirt for interacting with VMs
 # Developed by and used at CloudSigma
 sudo pip3 install cgroupspy
+
+# 
+# Configuration Control Steps
+# 
+
+# Instead of docker info (which seems to be buggy) use rather lxc-checkconfig or check-config.sh from Docker (moby) repository:
+wget https://raw.githubusercontent.com/moby/moby/master/contrib/check-config.sh && sudo bash check-config.sh
+
+# CGROUPS Status Check
+sudo cat /sys/fs/cgroup/cgroup.controllers
+
+# KVM Virtualization Status Check
+sudo virt-host-validate
 
 # -----------------

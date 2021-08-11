@@ -8,9 +8,6 @@
 export DEBIAN_FRONTEND=noninteractive
 sudo echo "APT::Get::Assume-Yes \"true\";" > /etc/apt/apt.conf.d/90assumeyes
 
-# Set Timezone:
-sudo timedatectl set-timezone Europe/Istanbul
-
 # Install required general purpose tools:
 sudo apt-get update -y
 sudo apt-get upgrade -y

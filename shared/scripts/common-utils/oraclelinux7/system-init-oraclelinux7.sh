@@ -3,9 +3,6 @@
 
 # -----------------
 
-# Set Timezone:
-sudo timedatectl set-timezone Europe/Istanbul
-
 # Install required general purpose tools:
 sudo yum update -y
 sudo yum upgrade -y

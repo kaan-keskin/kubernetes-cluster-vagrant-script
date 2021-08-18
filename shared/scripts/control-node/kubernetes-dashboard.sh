@@ -38,6 +38,6 @@ subjects:
 EOF
 
 # Getting a Bearer Token
-sudo -u vagrant kubectl -n kubernetes-dashboard get secret $(sudo -u vagrant kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}" >> /vagrant/configs/token
+sudo -u vagrant kubectl -n kubernetes-dashboard get secret $(sudo -u vagrant kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}" >> /vagrant/cluster-conf/token
 
 # -----------------

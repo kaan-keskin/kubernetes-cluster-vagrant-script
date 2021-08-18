@@ -4,7 +4,7 @@
 # -----------------
 
 # Using libcgroup
-sudo apt install -y lxc cgroup-lite cgroup-bin cgroup-tools
+apt install -y lxc cgroup-lite cgroup-tools
 
 # 
 # Kernel Parameters:
@@ -19,9 +19,9 @@ sudo apt install -y lxc cgroup-lite cgroup-bin cgroup-tools
 # cgroup_enable=blkio cgroup_enable=cpu cgroup_enable=cpuacct cgroup_enable=cpuset cgroup_enable=devices cgroup_enable=freezer cgroup_enable=memory swapaccount=1
 # "
 # 
-sudo grubby --update-kernel=ALL \
-  --args="cgroup_enable=blkio cgroup_enable=cpu cgroup_enable=cpuacct cgroup_enable=cpuset cgroup_enable=devices cgroup_enable=freezer cgroup_enable=memory swapaccount=1" 
-sudo update-grub
+# grubby --update-kernel=ALL \
+#   --args="cgroup_enable=blkio cgroup_enable=cpu cgroup_enable=cpuacct cgroup_enable=cpuset cgroup_enable=devices cgroup_enable=freezer cgroup_enable=memory swapaccount=1" 
+# update-grub
 
 #
 # https://www.kernel.org/doc/Documentation/cgroup-v1/cgroups.txt
@@ -30,17 +30,17 @@ sudo update-grub
 # Creating, modifying, using cgroups can be done through the cgroup virtual filesystem.
 # 
 # To mount a cgroup hierarchy with all available subsystems, type:
-sudo mount -t cgroup cgroup_root /sys/fs/cgroup
+# mount -t cgroup cgroup_root /sys/fs/cgroup
 #
 # To mount a cgroup hierarchy with just the cpuset and memory subsystems, type:
 # mount -t cgroup -o cpuset,memory hier1 /sys/fs/cgroup/rg1
 # 
 # Limit a process to a specific CPU core
-sudo mkdir -p /sys/fs/cgroup/cpuset
+# mkdir -p /sys/fs/cgroup/cpuset
 # sudo mount -t cgroup cpuset -o cpuset /sys/fs/cgroup/cpuset
 # 
 # Setting up memory policies
-sudo mkdir -p /sys/fs/cgroup/memory
+# mkdir -p /sys/fs/cgroup/memory
 # sudo mount -t cgroup memory -o memory /sys/fs/cgroup/memory
 # 
 
@@ -48,19 +48,19 @@ sudo mkdir -p /sys/fs/cgroup/memory
 # Python wrapper for cgroups
 # Integration with libvirt for interacting with VMs
 # Developed by and used at CloudSigma
-sudo pip3 install cgroupspy
+pip3 install cgroupspy
 
 # 
 # Configuration Control Steps
 # 
 
 # Instead of docker info (which seems to be buggy) use rather lxc-checkconfig or check-config.sh from Docker (moby) repository:
-wget https://raw.githubusercontent.com/moby/moby/master/contrib/check-config.sh && sudo bash check-config.sh
+# wget https://raw.githubusercontent.com/moby/moby/master/contrib/check-config.sh && bash check-config.sh
 
 # CGROUPS Status Check
-sudo cat /sys/fs/cgroup/cgroup.controllers
+# cat /sys/fs/cgroup/cgroup.controllers
 
 # KVM Virtualization Status Check
-sudo virt-host-validate
+# virt-host-validate
 
 # -----------------

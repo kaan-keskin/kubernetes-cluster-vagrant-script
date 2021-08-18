@@ -1,31 +1,34 @@
 #!/bin/bash
-# Common utils for all Kubernetes nodes in the cluster.
+# Common utils for all nodes in the cluster.
 
 # -----------------
 
 # To make it easier to run apt-get,
 # configure apt to not require confirmation (assume the -y argument by default)
 export DEBIAN_FRONTEND=noninteractive
-sudo echo "APT::Get::Assume-Yes \"true\";" > /etc/apt/apt.conf.d/90assumeyes
+echo "APT::Get::Assume-Yes \"true\";" > /etc/apt/apt.conf.d/90assumeyes
 
 # Install required general purpose tools:
-sudo apt-get update -y
-sudo apt-get upgrade -y
-sudo apt-get install -y --no-install-recommends \
+apt-get update -y
+apt-get upgrade -y
+apt-get install -y --no-install-recommends \
   vim \
   git \
   tree \
   htop \
   python3 \
+  python3-pip \
   apt-transport-https \
-  curl
+  curl \
+  bash-completion \
+  tmux
 
 # Install BpyTop on Ubuntu 
-sudo apt install -y python3-pip
-sudo pip3 install bpytop
+pip3 install bpytop
 
 # Clean apt cache
-sudo apt autoclean -y
-sudo apt autoremove -y
+apt autoclean -y
+apt autoremove -y
+apt clean -y
 
 # -----------------

@@ -1,7 +1,8 @@
 ########    Below Ignore options are specified by project members       ########
 ########    They are custom ignore options                              ########
 
-configs/
+cluster-conf/
+README.txt
 
 ############################################
 ######  Custom ignore files BEGINNING  #####

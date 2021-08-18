@@ -9,9 +9,9 @@
 # Run the command that was output by kubeadm init.
 
 # Run the created join script:
-sudo bash /vagrant/configs/join.sh
+bash /vagrant/cluster-conf/join.sh
 
 sudo -u vagrant mkdir -p /home/vagrant/.kube
-sudo -u vagrant cp -i /vagrant/configs/config /home/vagrant/.kube/
+sudo -u vagrant cp -i /vagrant/cluster-conf/config /home/vagrant/.kube/
 export NODENAME=$(hostname -s)
 sudo -u vagrant kubectl label node $(hostname -s) node-role.kubernetes.io/worker=worker-new

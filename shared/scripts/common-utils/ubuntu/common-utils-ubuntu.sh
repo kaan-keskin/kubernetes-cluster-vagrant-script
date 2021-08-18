@@ -20,7 +20,7 @@ source docker-install-ubuntu.sh
 source kubeadm-kubelet-kubectl-install-ubuntu.sh
 
 # Installing bash completion on Linux
-source bash-completion-ubuntu.sh
+source ../kubectl-bash-completion-ubuntu.sh
 
 # Installing Helm From Script
 source helm-install-ubuntu.sh

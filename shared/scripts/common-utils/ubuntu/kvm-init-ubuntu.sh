@@ -1,5 +1,5 @@
 #!/bin/bash
-# KVM virtualization initializaiton for all Kubernetes nodes in the cluster.
+# KVM virtualization initializaiton for all nodes in the cluster.
 
 # -----------------
 
@@ -14,29 +14,25 @@ egrep '^flags.*(vmx|svm)' /proc/cpuinfo || (echo enable CPU virtualization suppo
 echo MYOS is set to $MYOS
 
 # Install KVM software
-sudo apt-get install -y \
+apt-get install -y \
   qemu-kvm \
   libvirt-daemon-system \
   libvirt-clients \
   bridge-utils
 
-sudo adduser `id -un` libvirt
-sudo adduser `id -un` kvm
+adduser `id -un` libvirt
+adduser `id -un` kvm
 
 # Installing the QEMU guest agent
 # The qemu-guest-agent is a helper daemon, which is installed in the guest. 
 # It is used to exchange information between the host and guest, and to execute command in the guest. 
-sudo apt-get install -y qemu-guest-agent
-sudo systemctl enable --now qemu-guest-agent
+apt-get install -y qemu-guest-agent
+# systemctl enable --now qemu-guest-agent
 
 # KVM Virtualization Status Check
-sudo virt-host-validate
+# virt-host-validate
 
 # List All KVM Network Interfaces
-sudo virsh net-list --all
-
-# Clean apt cache
-sudo apt autoclean -y
-sudo apt autoremove -y
+# virsh net-list --all
 
 # -----------------

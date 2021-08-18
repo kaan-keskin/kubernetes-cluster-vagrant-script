@@ -3,11 +3,8 @@
 
 # -----------------
 
-# Installing bash completion on Linux
-## If bash-completion is not installed on Linux, please install the 'bash-completion' package
-## via your distribution's package manager.
-sudo apt-get update -y
-sudo apt-get install -y --no-install-recommends bash-completion
+## Load the kubectl completion code for bash into the current shell
+source <(kubectl completion bash)
 
 ## Write bash completion code to a file and source it from .bash_profile
 sudo -u vagrant mkdir -p /home/vagrant/.kube/
@@ -19,5 +16,7 @@ sudo -u vagrant printf "
 source '/home/vagrant/.kube/completion.bash.inc'
 
 " >> /home/vagrant/.bash_profile
+
+# source $HOME/.bash_profile
 
 # -----------------

@@ -3,7 +3,7 @@
 # -----------------
 # kubeadm initialization steps for control node
 
-CONTROL_NODE_IP="10.0.0.10"
+CONTROL_NODE_IP="10.0.0.11"
 NODE_NAME=$(hostname -s)
 
 # 
@@ -25,7 +25,7 @@ POD_CIDR="192.168.0.0/16"
 #POD_CIDR="172.17.0.0/16" 
 
 # Download all required Docker images:
-sudo kubeadm config images pull
+kubeadm config images pull
 
 #
 # Creating a cluster with kubeadm
@@ -33,13 +33,13 @@ sudo kubeadm config images pull
 #
 
 # Initializing your control-plane node
-sudo kubeadm init --apiserver-advertise-address=$CONTROL_NODE_IP  --apiserver-cert-extra-sans=$CONTROL_NODE_IP --pod-network-cidr=$POD_CIDR --node-name $NODE_NAME --ignore-preflight-errors Swap
+kubeadm init --apiserver-advertise-address=$CONTROL_NODE_IP  --apiserver-cert-extra-sans=$CONTROL_NODE_IP --pod-network-cidr=$POD_CIDR --node-name $NODE_NAME --ignore-preflight-errors Swap
 
 # To make kubectl work for your non-root user, run these commands, which are also part of the kubeadm init output:
 # To start using your cluster, you need to run the following as a regular user:
-sudo mkdir -p /home/vagrant/.kube
-sudo cp -i /etc/kubernetes/admin.conf /home/vagrant/.kube/config
-sudo chown -R vagrant:vagrant /home/vagrant/
+mkdir -p /home/vagrant/.kube
+cp -i /etc/kubernetes/admin.conf /home/vagrant/.kube/config
+chown -R vagrant:vagrant /home/vagrant/
 export KUBECONFIG=/home/vagrant/.kube/config
 
 # -----------------

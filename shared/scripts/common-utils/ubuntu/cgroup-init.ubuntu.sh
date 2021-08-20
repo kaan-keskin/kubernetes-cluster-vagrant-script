@@ -44,6 +44,9 @@ apt install -y lxc cgroup-lite cgroup-tools
 # sudo mount -t cgroup memory -o memory /sys/fs/cgroup/memory
 # 
 
+# Systemd cgroups list:
+# systemd-cgls 
+
 # Cgroupspy
 # Python wrapper for cgroups
 # Integration with libvirt for interacting with VMs

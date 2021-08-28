@@ -4,7 +4,7 @@
 # -----------------
 
 # Install tuned administrator tool:
-apt-get install -y --no-install-recommends \
+sudo yum install -y \
   tuned-adm \
   tuned
 

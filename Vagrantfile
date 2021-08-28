@@ -124,7 +124,6 @@ Vagrant.configure("2") do |config|
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/swap-off-ubuntu.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/kvm-init-ubuntu.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/cgroup-init.ubuntu.sh", privileged: true
-      i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/tuned-ubuntu.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/timezone-settings-ubuntu.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/docker-install-ubuntu.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/kubeadm-kubelet-kubectl-install-ubuntu.sh", privileged: true
@@ -177,7 +176,6 @@ Vagrant.configure("2") do |config|
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/swap-off-ubuntu.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/kvm-init-ubuntu.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/cgroup-init.ubuntu.sh", privileged: true
-      i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/tuned-ubuntu.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/timezone-settings-ubuntu.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/docker-install-ubuntu.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/kubeadm-kubelet-kubectl-install-ubuntu.sh", privileged: true

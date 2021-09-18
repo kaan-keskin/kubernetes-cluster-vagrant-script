@@ -129,6 +129,7 @@ Vagrant.configure("2") do |config|
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/kubeadm-kubelet-kubectl-install-ubuntu.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/kubectl-bash-completion.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/helm-install-ubuntu.sh", privileged: true
+      i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/nfs-install-ubuntu.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/kubectx-install.sh", privileged: true
       # Decide Automatically Cluster Forming in Kubernetes Cluster
       if auto_join
@@ -181,6 +182,7 @@ Vagrant.configure("2") do |config|
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/kubeadm-kubelet-kubectl-install-ubuntu.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/kubectl-bash-completion.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/helm-install-ubuntu.sh", privileged: true
+      i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/nfs-install-ubuntu.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/kubectx-install.sh", privileged: true
       # Decide Automatically Cluster Forming in Kubernetes Cluster
       if auto_join

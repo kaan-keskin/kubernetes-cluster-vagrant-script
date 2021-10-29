@@ -21,7 +21,10 @@ apt-get install -y --no-install-recommends \
   apt-transport-https \
   curl \
   bash-completion \
-  tmux
+  tmux \
+  dos2unix \
+  bridge-utils \
+  dnsutils
 
 # Install BpyTop on Ubuntu 
 pip3 install bpytop

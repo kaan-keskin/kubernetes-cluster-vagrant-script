@@ -3,7 +3,9 @@
 # -----------------
 # kubeadm initialization steps for control node
 
-CONTROL_NODE_IP="10.0.0.11"
+#CONTROL_NODE_IP="10.0.0.11"
+# Use the node alias not the IP
+CONTROL_NODE_IP="k8scp"
 NODE_NAME=$(hostname -s)
 
 # 
@@ -41,5 +43,9 @@ mkdir -p /home/vagrant/.kube
 cp -i /etc/kubernetes/admin.conf /home/vagrant/.kube/config
 chown -R vagrant:vagrant /home/vagrant/
 export KUBECONFIG=/home/vagrant/.kube/config
+
+# Install etcd-client:
+apt-install -y --no-install-recommends \
+    etcd-client
 
 # -----------------

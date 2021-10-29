@@ -9,7 +9,7 @@
 Vagrant.require_version ">= 2.0.0"
 
 # Check if the necessary plugins are installed
-required_plugins = %w( vagrant-vbguest vagrant-disksize vagrant-proxyconf )
+required_plugins = %w( vagrant-vbguest vagrant-disksize vagrant-proxyconf vagrant-libvirt vagrant-mutate )
 plugins_to_install = required_plugins.select { |plugin| not Vagrant.has_plugin? plugin }
 if not plugins_to_install.empty?
   puts "Installing plugins: #{plugins_to_install.join(' ')}"
@@ -22,9 +22,11 @@ end
 
 # Virtual Machine Configuration #
 # Select VM Provider for your localhost. 
-# Options: virtualbox, vmware_desktop, docker, hyperv
-# Default provider is virtualbox.
+# Options: virtualbox, libvirt, vmware_desktop, docker, hyperv
+# Default provider is "virtualbox".
 vm_provider = "virtualbox"
+# Vagrant Box Options: "ubuntu/focal64","generic/ubuntu2004"
+vm_box = "ubuntu/focal64"
 # Increase vm_memory if you want more than 2GB memory in the vm:
 vm_memory = 2048
 # Increase vm_cpus if you want more cpu's per vm:
@@ -55,7 +57,7 @@ end
 # Write hostnames and IP addresses of all nodes to the hosts file:
 File.open("./shared/cluster-conf/hosts", 'w') { |file| 
   controller_instances.each do |i|
-    file.write("#{i[:ip]} #{i[:name]} #{i[:name]}\n")
+    file.write("#{i[:ip]} #{i[:name]} \#k8scp\n")
   end
   worker_instances.each do |i|
     file.write("#{i[:ip]} #{i[:name]} #{i[:name]}\n")
@@ -98,11 +100,12 @@ Vagrant.configure("2") do |config|
   controller_instances.each do |instance|
     config.vm.define instance[:name] do |i|
       # VM Instance Specific Configuration
-      i.vm.box = "ubuntu/focal64"
+      i.vm.box = vm_box
       i.vm.box_check_update = true
       i.vm.hostname = instance[:name]
       i.vm.network "private_network", ip: "#{instance[:ip]}"
       i.disksize.size = vm_disksize
+      # VirtualBox supports this feature but libvirt does not support.
       i.vm.provider vm_provider do |vm|
         vm.name = instance[:name]
       end
@@ -129,7 +132,6 @@ Vagrant.configure("2") do |config|
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/kubeadm-kubelet-kubectl-install-ubuntu.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/kubectl-bash-completion.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/helm-install-ubuntu.sh", privileged: true
-      i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/nfs-install-ubuntu.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/kubectx-install.sh", privileged: true
       # Decide Automatically Cluster Forming in Kubernetes Cluster
       if auto_join
@@ -139,8 +141,9 @@ Vagrant.configure("2") do |config|
           i.vm.provision "shell", inline: "bash /vagrant/scripts/control-node/pod-network-calico.sh", privileged: true
           i.vm.provision "shell", inline: "bash /vagrant/scripts/control-node/metrics-server.sh", privileged: true
           i.vm.provision "shell", inline: "bash /vagrant/scripts/control-node/kubernetes-dashboard.sh", privileged: true
+          i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/nfs-server-install-ubuntu.sh", privileged: true
         else
-          
+          i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/nfs-client-install-ubuntu.sh", privileged: true
         end
       end
 
@@ -151,11 +154,12 @@ Vagrant.configure("2") do |config|
   worker_instances.each do |instance|
     config.vm.define instance[:name] do |i|
       # VM Instance Specific Configuration
-      i.vm.box = "ubuntu/focal64"
+      i.vm.box = vm_box
       i.vm.box_check_update = true
       i.vm.hostname = instance[:name]
       i.vm.network "private_network", ip: "#{instance[:ip]}"
       i.disksize.size = vm_disksize
+      # VirtualBox supports this feature but libvirt does not support.
       i.vm.provider vm_provider do |vm|
         vm.name = instance[:name]
       end
@@ -182,7 +186,7 @@ Vagrant.configure("2") do |config|
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/kubeadm-kubelet-kubectl-install-ubuntu.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/kubectl-bash-completion.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/helm-install-ubuntu.sh", privileged: true
-      i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/nfs-install-ubuntu.sh", privileged: true
+      i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/nfs-client-install-ubuntu.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/kubectx-install.sh", privileged: true
       # Decide Automatically Cluster Forming in Kubernetes Cluster
       if auto_join

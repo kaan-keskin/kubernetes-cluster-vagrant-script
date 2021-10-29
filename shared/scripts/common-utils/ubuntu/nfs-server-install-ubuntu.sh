@@ -8,7 +8,7 @@
 # The first step is to install the nfs-kernel-server package on the server. 
 # Once the update is complete, proceed and install the nfs-kernel-server package as shown below. 
 # This will store additional packages such as nfs-common and rpcbind which are equally crucial to the setup of the file share.
-apt install nfs-kernel-server
+apt install nfs-kernel-server nfs-common
 
 # Create an NFS Export Directory:
 # The second step will be creating a directory that will be shared among client systems. 
@@ -23,7 +23,9 @@ chown -R nobody:nogroup /mnt/nfs_share/
 
 # You can also tweak the file permissions to your preference. 
 # Here’s we have given the read, write and execute privileges to all the contents inside the directory.
-chmod 777 /mnt/nfs_share/
+# Make and populate a directory to be shared. Also give it similar permissions to /tmp/ .
+chmod 1777 /mnt/nfs_share/
+bash -c 'echo software > /mnt/nfs_share/hello.txt'
 
 # Grant NFS Share Access to Client Systems:
 # Permissions for accessing the NFS server are defined in the /etc/exports file. 
@@ -37,5 +39,15 @@ chmod 777 /mnt/nfs_share/
 # rw: Stands for Read/Write.
 # sync: Requires changes to be written to the disk before they are applied.
 # No_subtree_check: Eliminates subtree checking.
+
+# Edit the NFS server file to share out the newly created directory. 
+# In this case we will share the directory with all. 
+# You can always snoop to see the inbound request in a later step and update the file to be more narrow.
+bash -c 'echo /mnt/nfs_share/ *(rw,sync,no_root_squash,subtree_check) >> /etc/exports'
+
+# Cause /etc/exports to be re-read:
+exportfs -ra
+
+
 
 # -----------------

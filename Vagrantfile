@@ -35,7 +35,7 @@ vm_cpus = 2
 vm_disksize = "40GB"
 
 # Control Node Configuration #
-# Increase number of controller node if you want more than 3 nodes:
+# Increase number of controller node if you want more than 1 nodes:
 num_controllers = 1
 # List of all Worker Instances:
 controller_instances = []
@@ -133,6 +133,7 @@ Vagrant.configure("2") do |config|
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/kubectl-bash-completion.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/helm-install-ubuntu.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/kubectx-install.sh", privileged: true
+      i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/krew-install.sh", privileged: true
       # Decide Automatically Cluster Forming in Kubernetes Cluster
       if auto_join
         if "#{instance[:name]}" == "kubernetes-controller-node-1"
@@ -188,6 +189,7 @@ Vagrant.configure("2") do |config|
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/helm-install-ubuntu.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/nfs-client-install-ubuntu.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/kubectx-install.sh", privileged: true
+      i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/krew-install.sh", privileged: true
       # Decide Automatically Cluster Forming in Kubernetes Cluster
       if auto_join
         i.vm.provision "shell", inline: "bash /vagrant/scripts/worker-node/worker-node.sh", privileged: true

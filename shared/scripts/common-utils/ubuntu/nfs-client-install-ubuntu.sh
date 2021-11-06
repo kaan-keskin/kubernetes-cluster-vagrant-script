@@ -26,4 +26,7 @@ mount kubernetes-controller-node-1:/mnt/nfs_share /mnt/nfs_share
 
 ls -l /mnt/nfs_share
 
+# Check mount status
+showmount -e localhost
+
 # -----------------

@@ -134,6 +134,7 @@ Vagrant.configure("2") do |config|
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/helm-install-ubuntu.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/kubectx-install.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/krew-install.sh", privileged: true
+      i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/kubectl-plugins-install.sh", privileged: true
       # Decide Automatically Cluster Forming in Kubernetes Cluster
       if auto_join
         if "#{instance[:name]}" == "kubernetes-controller-node-1"
@@ -190,6 +191,7 @@ Vagrant.configure("2") do |config|
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/nfs-client-install-ubuntu.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/kubectx-install.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/krew-install.sh", privileged: true
+      i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/kubectl-plugins-install.sh", privileged: true
       # Decide Automatically Cluster Forming in Kubernetes Cluster
       if auto_join
         i.vm.provision "shell", inline: "bash /vagrant/scripts/worker-node/worker-node.sh", privileged: true

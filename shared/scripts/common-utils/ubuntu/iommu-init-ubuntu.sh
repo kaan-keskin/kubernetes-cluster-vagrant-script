@@ -9,10 +9,10 @@
 #
 
 # TO-DO
-sudo usermod -aG libvirt $(whoami)
-sudo systemctl start libvirtd.service
-sudo systemctl enable libvirtd.service
-sudo systemctl status libvirtd.service
+usermod -aG libvirt vagrant
+systemctl start libvirtd.service
+systemctl enable libvirtd.service
+systemctl status libvirtd.service
 
 # 
 # Enable the IOMMU
@@ -22,9 +22,9 @@ sudo systemctl status libvirtd.service
 # iommu=pt intel_iommu=on amd_iommu=on
 # "
 # 
-sudo grubby --update-kernel=ALL \
+grubby --update-kernel=ALL \
   --args="iommu=pt intel_iommu=on" 
-sudo update-grub
+update-grub
 
 # Verify IOMMU is enabled
 dmesg | grep -e DMAR -e IOMMU
@@ -45,10 +45,10 @@ dmesg | grep 'remapping'
 
 # If your system doesn't support interrupt remapping, 
 # you can allow unsafe interrupts with:
-sudo echo "options vfio_iommu_type1 allow_unsafe_interrupts=1" > /etc/modprobe.d/iommu_unsafe_interrupts.conf
+echo "options vfio_iommu_type1 allow_unsafe_interrupts=1" > /etc/modprobe.d/iommu_unsafe_interrupts.conf
 
 # Required Modules add to /etc/modules:
-sudo printf "
+printf "
 vfio
 vfio_iommu_type1
 vfio_pci
@@ -60,7 +60,7 @@ vfio_virqfd
 # 
 
 # KVM Virtualization Status Check
-sudo virt-host-validate
+virt-host-validate
 
 
 # -----------------

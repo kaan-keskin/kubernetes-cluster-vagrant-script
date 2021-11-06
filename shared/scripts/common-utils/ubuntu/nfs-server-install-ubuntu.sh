@@ -48,6 +48,7 @@ bash -c 'echo /mnt/nfs_share/ *(rw,sync,no_root_squash,subtree_check) >> /etc/ex
 # Cause /etc/exports to be re-read:
 exportfs -ra
 
-
+# Check mount status
+showmount -e localhost
 
 # -----------------

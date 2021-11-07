@@ -6,6 +6,7 @@
 # Install NFS Common package in Ubuntu:
 apt install nfs-common
 
+# Check NFS Mount Address
 showmount -e kubernetes-controller-node-1
 
 # Create an NFS Export Directory:
@@ -22,8 +23,12 @@ chown -R nobody:nogroup /mnt/nfs_share/
 chmod 1777 /mnt/nfs_share/
 
 # Grant NFS Share Access to Client Systems:
+# Mount the directory. 
+# Be aware that unless you edit /etc/fstab this is not a persistent mount. 
+# Change out the node name for that of your control plane node.
 mount kubernetes-controller-node-1:/mnt/nfs_share /mnt/nfs_share
 
+# List mounted NFS share content
 ls -l /mnt/nfs_share
 
 # Check mount status

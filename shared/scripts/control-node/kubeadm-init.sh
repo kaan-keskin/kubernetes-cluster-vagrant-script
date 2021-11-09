@@ -3,9 +3,11 @@
 # -----------------
 # kubeadm initialization steps for control node
 
-#CONTROL_NODE_IP="10.0.0.11"
 # Use the node alias not the IP
-CONTROL_NODE_IP="k8scp"
+# "apiserver-advertise-address" must be ipv4 or ipv6 address!
+#CONTROL_NODE_IP="k8scp"
+#CONTROL_NODE_IP="kubernetes-controller-node-1"
+CONTROL_NODE_IP="10.0.0.11"
 NODE_NAME=$(hostname -s)
 
 # 
@@ -45,7 +47,7 @@ chown -R vagrant:vagrant /home/vagrant/
 export KUBECONFIG=/home/vagrant/.kube/config
 
 # Install etcd-client:
-apt-install -y --no-install-recommends \
+apt-get install -y --no-install-recommends \
     etcd-client
 
 # -----------------

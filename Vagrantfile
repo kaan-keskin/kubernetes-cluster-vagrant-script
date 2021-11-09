@@ -57,7 +57,7 @@ end
 # Write hostnames and IP addresses of all nodes to the hosts file:
 File.open("./shared/cluster-conf/hosts", 'w') { |file| 
   controller_instances.each do |i|
-    file.write("#{i[:ip]} #{i[:name]} \#k8scp\n")
+    file.write("#{i[:ip]} #{i[:name]} #{i[:name]}\n")
   end
   worker_instances.each do |i|
     file.write("#{i[:ip]} #{i[:name]} #{i[:name]}\n")
@@ -134,7 +134,7 @@ Vagrant.configure("2") do |config|
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/helm-install-ubuntu.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/kubectx-install.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/krew-install.sh", privileged: true
-      i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/kubectl-plugins-install.sh", privileged: true
+      #i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/kubectl-plugins-install.sh", privileged: true
       # Decide Automatically Cluster Forming in Kubernetes Cluster
       if auto_join
         if "#{instance[:name]}" == "kubernetes-controller-node-1"
@@ -143,9 +143,9 @@ Vagrant.configure("2") do |config|
           i.vm.provision "shell", inline: "bash /vagrant/scripts/control-node/pod-network-calico.sh", privileged: true
           i.vm.provision "shell", inline: "bash /vagrant/scripts/control-node/metrics-server.sh", privileged: true
           i.vm.provision "shell", inline: "bash /vagrant/scripts/control-node/kubernetes-dashboard.sh", privileged: true
-          i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/nfs-server-install-ubuntu.sh", privileged: true
+          #i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/nfs-server-install-ubuntu.sh", privileged: true
         else
-          i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/nfs-client-install-ubuntu.sh", privileged: true
+          #i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/nfs-client-install-ubuntu.sh", privileged: true
         end
       end
 
@@ -188,10 +188,10 @@ Vagrant.configure("2") do |config|
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/kubeadm-kubelet-kubectl-install-ubuntu.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/kubectl-bash-completion.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/helm-install-ubuntu.sh", privileged: true
-      i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/nfs-client-install-ubuntu.sh", privileged: true
+      #i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/nfs-client-install-ubuntu.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/kubectx-install.sh", privileged: true
       i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/krew-install.sh", privileged: true
-      i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/kubectl-plugins-install.sh", privileged: true
+      #i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/kubectl-plugins-install.sh", privileged: true
       # Decide Automatically Cluster Forming in Kubernetes Cluster
       if auto_join
         i.vm.provision "shell", inline: "bash /vagrant/scripts/worker-node/worker-node.sh", privileged: true

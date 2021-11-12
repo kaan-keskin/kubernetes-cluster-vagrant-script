@@ -45,8 +45,24 @@ bash -c 'echo software > /mnt/nfs_share/hello.txt'
 # You can always snoop to see the inbound request in a later step and update the file to be more narrow.
 bash -c 'echo /mnt/nfs_share/ *(rw,sync,no_root_squash,subtree_check) >> /etc/exports'
 
+# Enable VFS Service
+systemctl enable --now nfs-server
+
 # Cause /etc/exports to be re-read:
 exportfs -ra
+
+# Check Firewall Configuration
+firewall-cmd --list-all
+firewall-cmd --get-services
+
+# Enable NFS Services in Firewall Configuration
+firewall-cmd --add-service nfs --permanent
+firewall-cmd --add-service mountd --permanent
+firewall-cmd --add-service rpc-bind --permanent
+firewall-cmd --reload
+
+# Check Firewall Configuration
+firewall-cmd --list-all
 
 # Check mount status
 showmount -e localhost

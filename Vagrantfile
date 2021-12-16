@@ -8,8 +8,8 @@
 # Vagrant version requirement
 Vagrant.require_version ">= 2.0.0"
 
-# Check if the necessary plugins are installed
-required_plugins = %w( vagrant-vbguest vagrant-disksize vagrant-proxyconf vagrant-libvirt vagrant-mutate )
+# Check if the necessary plugins are installed: vagrant-libvirt
+required_plugins = %w( vagrant-vbguest vagrant-disksize vagrant-proxyconf vagrant-mutate )
 plugins_to_install = required_plugins.select { |plugin| not Vagrant.has_plugin? plugin }
 if not plugins_to_install.empty?
   puts "Installing plugins: #{plugins_to_install.join(' ')}"
@@ -143,6 +143,7 @@ Vagrant.configure("2") do |config|
           i.vm.provision "shell", inline: "bash /vagrant/scripts/control-node/pod-network-calico.sh", privileged: true
           i.vm.provision "shell", inline: "bash /vagrant/scripts/control-node/metrics-server.sh", privileged: true
           i.vm.provision "shell", inline: "bash /vagrant/scripts/control-node/kubernetes-dashboard.sh", privileged: true
+          i.vm.provision "shell", inline: "bash /vagrant/scripts/control-node/ingress/traefik-helm/traefik-helm-install.sh", privileged: true
           #i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/nfs-server-install-ubuntu.sh", privileged: true
         else
           #i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/nfs-client-install-ubuntu.sh", privileged: true

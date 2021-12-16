@@ -34,4 +34,16 @@ apt autoclean -y
 apt autoremove -y
 apt clean -y
 
+# Disable Firewall
+systemctl disable --now firewalld
+
+# Vim
+## The expandtab make sure to use spaces for tabs. 
+## Create the file ~/.vimrc with the following content:
+sudo -u vagrant printf "
+set tabstop=2
+set expandtab
+set shiftwidth=2
+" >> /home/vagrant/.vimrc
+
 # -----------------

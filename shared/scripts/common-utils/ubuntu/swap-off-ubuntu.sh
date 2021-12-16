@@ -2,6 +2,8 @@
 # Disable SWAP for all nodes in the cluster.
 
 # -----------------
+# Display Memory Usages
+#free -m
 
 # Disable Swap Area
 swapoff -a

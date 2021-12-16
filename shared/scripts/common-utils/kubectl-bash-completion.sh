@@ -16,7 +16,27 @@ sudo -u vagrant printf "
 source '/home/vagrant/.kube/completion.bash.inc'
 
 " >> /home/vagrant/.bash_profile
+source /home/vagrant/.bash_profile
 
-# source $HOME/.bash_profile
+## Write bash completion script to /etc/bash_completion.d/
+mkdir -p /etc/bash_completion.d/
+kubectl completion bash > /etc/bash_completion.d/kubectl
+
+## Optional Setup: kubectl shortcuts and aliases:
+sudo -u vagrant printf "
+
+# Alias kubectl
+alias k='kubectl'
+
+# Fast dry-run output
+export do="--dry-run=client -o yaml"
+
+# Fast pod delete
+export now="--force --grace-period 0"
+
+# Alias Namespace
+alias kn='kubectl config set-context --current --namespace '
+
+" >> /home/vagrant/.bashrc
 
 # -----------------

@@ -5,11 +5,45 @@
 # The "2" in Vagrant.configure configures the configuration version. 
 # Please don't change it unless you know what you're doing.
 
+# Platform Compatibility Control
+module OS
+  def OS.windows?
+      (/cygwin|mswin|mingw|bccwin|wince|emx/ =~ RUBY_PLATFORM) != nil
+  end
+  def OS.mac?
+      (/darwin/ =~ RUBY_PLATFORM) != nil
+  end
+  def OS.unix?
+      !OS.windows?
+  end
+  def OS.linux?
+      OS.unix? and not OS.mac?
+  end
+end
+if OS.linux?
+  puts "Vagrant script launched on the Linux platform."
+else
+    puts "Vagrant script launched on the incompatible platform."
+    puts "Currently, this script does not support different platform other than Linux."
+    exit 1
+end
+
 # Vagrant version requirement
 Vagrant.require_version ">= 2.0.0"
 
-# Check if the necessary plugins are installed: vagrant-libvirt
-required_plugins = %w( vagrant-vbguest vagrant-disksize vagrant-proxyconf vagrant-mutate )
+# Select VM Provider for your localhost. 
+# Options: virtualbox, libvirt, vmware_desktop, docker, hyperv
+# Default provider is "virtualbox".
+vm_provider = "virtualbox"
+
+# Check if the necessary plugins are installed:
+if "vm_provider" == "virtualbox"
+  required_plugins = %w( vagrant-vbguest vagrant-disksize vagrant-proxyconf vagrant-mutate vagrant-share )
+elsif "vm_provider" == "libvirt"
+  required_plugins = %w( libvirt vagrant-libvirt vagrant-disksize vagrant-proxyconf vagrant-mutate vagrant-share )
+else
+  required_plugins = %w( vagrant-disksize vagrant-proxyconf vagrant-mutate vagrant-share )
+end
 plugins_to_install = required_plugins.select { |plugin| not Vagrant.has_plugin? plugin }
 if not plugins_to_install.empty?
   puts "Installing plugins: #{plugins_to_install.join(' ')}"
@@ -21,10 +55,6 @@ if not plugins_to_install.empty?
 end
 
 # Virtual Machine Configuration #
-# Select VM Provider for your localhost. 
-# Options: virtualbox, libvirt, vmware_desktop, docker, hyperv
-# Default provider is "virtualbox".
-vm_provider = "virtualbox"
 # Vagrant Box Options: "ubuntu/focal64","generic/ubuntu2004"
 vm_box = "ubuntu/focal64"
 # Increase vm_memory if you want more than 2GB memory in the vm:
@@ -138,14 +168,15 @@ Vagrant.configure("2") do |config|
       # Decide Automatically Cluster Forming in Kubernetes Cluster
       if auto_join
         if "#{instance[:name]}" == "kubernetes-controller-node-1"
-          i.vm.provision "shell", inline: "bash /vagrant/scripts/control-node/kubeadm-init.sh", privileged: true
-          i.vm.provision "shell", inline: "bash /vagrant/scripts/control-node/cluster-conf-join.sh", privileged: true
-          i.vm.provision "shell", inline: "bash /vagrant/scripts/control-node/pod-network-calico.sh", privileged: true
-          i.vm.provision "shell", inline: "bash /vagrant/scripts/control-node/metrics-server.sh", privileged: true
-          i.vm.provision "shell", inline: "bash /vagrant/scripts/control-node/kubernetes-dashboard.sh", privileged: true
-          i.vm.provision "shell", inline: "bash /vagrant/scripts/control-node/ingress/traefik-helm/traefik-helm-install.sh", privileged: true
+          i.vm.provision "shell", inline: "bash /vagrant/scripts/controller-node/kubeadm-init.sh", privileged: true
+          i.vm.provision "shell", inline: "bash /vagrant/scripts/controller-node/cluster-conf-join.sh", privileged: true
+          i.vm.provision "shell", inline: "bash /vagrant/scripts/controller-node/pod-network-calico.sh", privileged: true
+          i.vm.provision "shell", inline: "bash /vagrant/scripts/controller-node/metrics-server.sh", privileged: true
+          i.vm.provision "shell", inline: "bash /vagrant/scripts/controller-node/kubernetes-dashboard.sh", privileged: true
+          i.vm.provision "shell", inline: "bash /vagrant/scripts/controller-node/ingress/traefik-helm/traefik-helm-install.sh", privileged: true
           #i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/nfs-server-install-ubuntu.sh", privileged: true
         else
+          i.vm.provision "shell", inline: "bash /vagrant/scripts/controller-node/controller-node-join.sh", privileged: true
           #i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/nfs-client-install-ubuntu.sh", privileged: true
         end
       end

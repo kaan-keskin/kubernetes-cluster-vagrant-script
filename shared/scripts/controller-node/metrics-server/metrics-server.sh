@@ -20,7 +20,6 @@ sudo -u vagrant kubectl apply -f https://github.com/kubernetes-sigs/metrics-serv
 #        - --kubelet-use-node-status-port
 #        - --metric-resolution=15s
 #        - --kubelet-insecure-tls
-#        - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
 # ...
 # 
 # dnsPolicy: ClusterFirst

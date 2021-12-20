@@ -5,6 +5,12 @@
 # The "2" in Vagrant.configure configures the configuration version. 
 # Please don't change it unless you know what you're doing.
 
+# Script Introduction
+puts "--------------------------------------------------"
+puts " Kubernetes Cluster Creation Script Using Vagrant "
+puts " Author(s): Kaan Keskin "
+puts "--------------------------------------------------"
+
 # Platform Compatibility Control
 module OS
   def OS.windows?
@@ -21,10 +27,12 @@ module OS
   end
 end
 if OS.linux?
-  puts "Vagrant script launched on the Linux platform."
+  puts " Vagrant script launched on the Linux platform."
+  puts "--------------------------------------------------"
 else
-    puts "Vagrant script launched on the incompatible platform."
-    puts "Currently, this script does not support different platform other than Linux."
+    puts " Vagrant script launched on the incompatible platform."
+    puts " Currently, this script does not support different platform other than Linux."
+    puts "------------------------------------------------------------------------------"
     exit 1
 end
 
@@ -171,7 +179,7 @@ Vagrant.configure("2") do |config|
           i.vm.provision "shell", inline: "bash /vagrant/scripts/controller-node/kubeadm-init.sh", privileged: true
           i.vm.provision "shell", inline: "bash /vagrant/scripts/controller-node/cluster-conf-join.sh", privileged: true
           i.vm.provision "shell", inline: "bash /vagrant/scripts/controller-node/pod-network-calico.sh", privileged: true
-          i.vm.provision "shell", inline: "bash /vagrant/scripts/controller-node/metrics-server.sh", privileged: true
+          i.vm.provision "shell", inline: "bash /vagrant/scripts/controller-node/metrics-server/metrics-server.sh", privileged: true
           i.vm.provision "shell", inline: "bash /vagrant/scripts/controller-node/kubernetes-dashboard.sh", privileged: true
           i.vm.provision "shell", inline: "bash /vagrant/scripts/controller-node/ingress/traefik-helm/traefik-helm-install.sh", privileged: true
           #i.vm.provision "shell", inline: "bash /vagrant/scripts/common-utils/ubuntu/nfs-server-install-ubuntu.sh", privileged: true
@@ -181,7 +189,7 @@ Vagrant.configure("2") do |config|
         end
       end
 
-    end 
+    end
   end
 
   # Worker Node Provisioning

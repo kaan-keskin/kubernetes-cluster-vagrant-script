@@ -26,6 +26,9 @@ apt-get install -y --no-install-recommends \
   bridge-utils \
   dnsutils
 
+# Install the YAML Processor yq
+snap install yq
+
 # Install BpyTop on Ubuntu 
 pip3 install bpytop
 

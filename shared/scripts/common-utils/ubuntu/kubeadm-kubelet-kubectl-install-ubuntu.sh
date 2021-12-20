@@ -42,4 +42,9 @@ apt-get update -y
 apt-get install -y --no-install-recommends kubelet kubeadm kubectl
 apt-mark hold kubelet kubeadm kubectl
 
+# Install etcd-client:
+apt-get install -y --no-install-recommends \
+    etcd-client
+export ETCDCTL_API=3
+
 # -----------------

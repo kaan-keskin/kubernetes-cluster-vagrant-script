@@ -46,9 +46,4 @@ cp -i /etc/kubernetes/admin.conf /home/vagrant/.kube/config
 chown -R vagrant:vagrant /home/vagrant/
 export KUBECONFIG=/home/vagrant/.kube/config
 
-# Install etcd-client:
-apt-get install -y --no-install-recommends \
-    etcd-client
-export ETCDCTL_API=3
-
 # -----------------

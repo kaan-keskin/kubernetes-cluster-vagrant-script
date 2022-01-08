@@ -26,7 +26,7 @@
 
 # Install ipvs software
 # Packages such as ipset should also be installed on the node before using IPVS mode.
-apt-get install -y \
+apt-get install -qq \
   ipset \
   ipvsadm
 

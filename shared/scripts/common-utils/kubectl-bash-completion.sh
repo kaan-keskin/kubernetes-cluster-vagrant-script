@@ -28,6 +28,12 @@ sudo -u vagrant printf "
 # Alias kubectl
 alias k='kubectl'
 
+# Alias clear
+alias c='clear'
+
+# Auto-Complete kubectl Alias
+complete -F __start_kubectl k
+
 # Fast dry-run output
 export do="--dry-run=client -o yaml"
 
@@ -38,5 +44,7 @@ export now="--force --grace-period 0"
 alias kn='kubectl config set-context --current --namespace '
 
 " >> /home/vagrant/.bashrc
+
+sudo -u vagrant sed -i '1s/^/force_color_prompt=yes\n/' /home/vagrant/.bashrc
 
 # -----------------

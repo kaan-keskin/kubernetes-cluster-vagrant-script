@@ -20,13 +20,15 @@ apt-get install -y \
   libvirt-clients \
   bridge-utils
 
-adduser `id -un` libvirt
-adduser `id -un` kvm
+# adduser `id -un` libvirt
+adduser vagrant libvirt
+# adduser `id -un` kvm
+adduser vagrant kvm
 
 # Installing the QEMU guest agent
 # The qemu-guest-agent is a helper daemon, which is installed in the guest. 
 # It is used to exchange information between the host and guest, and to execute command in the guest. 
-apt-get install -y qemu-guest-agent
+apt-get install -qq qemu-guest-agent
 # systemctl enable --now qemu-guest-agent
 
 # KVM Virtualization Status Check

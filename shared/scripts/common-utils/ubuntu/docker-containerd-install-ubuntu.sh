@@ -8,11 +8,11 @@
 #
 
 # Older versions of Docker were called docker, docker.io, or docker-engine. If these are installed, uninstall them:
-apt-get remove docker docker-engine docker.io containerd runc
+# apt-get remove -qq docker docker-engine docker.io containerd runc
 
 # Update the apt package index and install packages to allow apt to use a repository over HTTPS:
-apt-get update -y
-apt-get install -y --no-install-recommends \
+apt-get update -qq
+apt-get install -qq --no-install-recommends \
     apt-transport-https \
     ca-certificates \
     curl \
@@ -28,8 +28,8 @@ echo \
   $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 # Update the apt package index, and install the latest version of Docker Engine and containerd
-apt-get update -y
-apt-get install -y --no-install-recommends docker-ce docker-ce-cli containerd.io
+apt-get update -qq
+apt-get install -qq --no-install-recommends docker-ce docker-ce-cli containerd.io
 
  # Run Docker commands as vagrant user
 usermod -aG docker vagrant
@@ -52,6 +52,41 @@ cat <<EOF | tee /etc/docker/daemon.json
     "overlay2.override_kernel_check=true"
   ]
 }
+EOF
+
+### containerd config
+mkdir -p /etc/containerd
+cat > /etc/containerd/config.toml <<EOF
+disabled_plugins = []
+imports = []
+oom_score = 0
+plugin_dir = ""
+required_plugins = []
+root = "/var/lib/containerd"
+state = "/run/containerd"
+version = 2
+[plugins]
+  [plugins."io.containerd.grpc.v1.cri".containerd.runtimes]
+    [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
+      base_runtime_spec = ""
+      container_annotations = []
+      pod_annotations = []
+      privileged_without_host_devices = false
+      runtime_engine = ""
+      runtime_root = ""
+      runtime_type = "io.containerd.runc.v2"
+      [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+        BinaryName = ""
+        CriuImagePath = ""
+        CriuPath = ""
+        CriuWorkPath = ""
+        IoGid = 0
+        IoUid = 0
+        NoNewKeyring = false
+        NoPivotRoot = false
+        Root = ""
+        ShimCgroup = ""
+        SystemdCgroup = true
 EOF
 
 # Docker and cgroups based on LXC

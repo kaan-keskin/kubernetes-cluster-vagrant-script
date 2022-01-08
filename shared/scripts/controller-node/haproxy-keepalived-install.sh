@@ -14,4 +14,4 @@
 # It worked on VRRP (Virtual Router Redundancy Protocol) protocol. 
 
 # Install Keepalived
-apt-get install haproxy keepalived
+apt-get install -qq haproxy keepalived

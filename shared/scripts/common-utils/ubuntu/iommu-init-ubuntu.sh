@@ -23,7 +23,7 @@ systemctl status libvirtd.service
 # "
 # 
 grubby --update-kernel=ALL \
-  --args="iommu=pt intel_iommu=on" 
+  --args="iommu=pt intel_iommu=on amd_iommu=on" 
 update-grub
 
 # Verify IOMMU is enabled

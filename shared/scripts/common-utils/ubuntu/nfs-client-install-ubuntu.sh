@@ -4,7 +4,7 @@
 # -----------------
 
 # Install NFS Common package in Ubuntu:
-apt-get install nfs-common
+apt-get install -qq nfs-common
 
 # Check NFS Mount Address
 showmount -e kubernetes-controller-node-1

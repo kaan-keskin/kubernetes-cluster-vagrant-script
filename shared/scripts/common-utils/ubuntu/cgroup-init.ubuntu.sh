@@ -4,7 +4,7 @@
 # -----------------
 
 # Using libcgroup
-apt install -y lxc cgroup-lite cgroup-tools
+apt-get install -y lxc cgroup-lite cgroup-tools
 
 # 
 # Kernel Parameters:

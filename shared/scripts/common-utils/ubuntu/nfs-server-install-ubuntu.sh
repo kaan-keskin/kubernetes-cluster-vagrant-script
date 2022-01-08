@@ -8,7 +8,7 @@
 # The first step is to install the nfs-kernel-server package on the server. 
 # Once the update is complete, proceed and install the nfs-kernel-server package as shown below. 
 # This will store additional packages such as nfs-common and rpcbind which are equally crucial to the setup of the file share.
-apt install nfs-kernel-server nfs-common
+apt-get install nfs-kernel-server nfs-common
 
 # Create an NFS Export Directory:
 # The second step will be creating a directory that will be shared among client systems. 

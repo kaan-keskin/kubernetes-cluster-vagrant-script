@@ -9,7 +9,7 @@ timedatectl set-timezone Europe/Istanbul
 # Usually timesync is installed on Ubuntu 20.04.1 LTS by default.
 # If not, we can installed by using the following command.
 # Note: systemd-timesyncd conflicts with ntp package.
-apt install -y systemd-timesyncd
+apt-get install -y systemd-timesyncd
 
 # 
 # Configuring arbitrary ntp server for systemd-timesyncd:

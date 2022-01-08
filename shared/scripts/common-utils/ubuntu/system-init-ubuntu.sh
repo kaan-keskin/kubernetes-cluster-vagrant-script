@@ -24,7 +24,10 @@ apt-get install -y --no-install-recommends \
   tmux \
   dos2unix \
   bridge-utils \
-  dnsutils
+  dnsutils \
+  fwbuilder \
+  ipmenu \
+  firewalld
 
 # Install the YAML Processor yq
 snap install yq
@@ -33,9 +36,9 @@ snap install yq
 pip3 install bpytop
 
 # Clean apt cache
-apt autoclean -y
-apt autoremove -y
-apt clean -y
+apt-get autoclean -y
+apt-get autoremove -y
+apt-get clean -y
 
 # Disable Firewall
 systemctl disable --now firewalld

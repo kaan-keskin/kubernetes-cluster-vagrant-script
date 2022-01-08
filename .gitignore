@@ -2,6 +2,7 @@
 ########    They are custom ignore options                              ########
 
 cluster-conf/
+not-supported/
 README.txt
 
 ############################################

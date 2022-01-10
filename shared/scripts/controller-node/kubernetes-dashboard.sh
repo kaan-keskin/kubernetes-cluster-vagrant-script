@@ -5,7 +5,10 @@
 # Install Kubernetes Dashboard
 # The Dashboard UI is not deployed by default. To deploy it, run the following command:
 # Source: https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
-sudo -u vagrant kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.2.0/aio/deploy/recommended.yaml
+sudo -u vagrant kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.4.0/aio/deploy/recommended.yaml
+
+# Create ClusterRoleBinding between kubernetes-dashboard Service Account and view ClusterRole
+sudo -u vagrant kubectl --namespace kubernetes-dashboard create clusterrolebinding insecure --serviceaccount kubernetes-dashboard:kubernetes-dashboard --clusterrole view
 
 #
 # Create default Dashboard User

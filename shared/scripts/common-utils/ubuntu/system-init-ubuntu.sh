@@ -21,6 +21,7 @@ apt-get install -qq --no-install-recommends \
   apt-transport-https \
   curl \
   bash-completion \
+  expect \
   binutils \
   tmux \
   dos2unix \
